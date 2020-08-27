@@ -5,7 +5,7 @@ module Projects::Operation
 
   private
 
-    def pagination!(ctx, headers: headers, **)
+    def pagination!(ctx, headers: {}, **)
       ctx['pagination.page'] = headers['Pagination-Page'] || 0
       ctx['pagination.limit'] = headers['Pagination-Limit'] || 5
     end

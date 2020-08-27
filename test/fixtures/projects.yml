@@ -1,0 +1,14 @@
+project_x:
+  name: 'Project X'
+  status: 0
+  client: john
+
+project_y:
+  name: 'Project Y'
+  status: 1
+  client: john
+
+project_z:
+  name: 'Project Z'
+  status: 2
+  client: jane
