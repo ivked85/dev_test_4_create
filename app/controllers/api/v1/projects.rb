@@ -27,7 +27,11 @@ module API::V1
         end
       end
       post do
-        create { |result| result['model'] }
+        create do |result|
+          header['Location'] = "#{request.url}/#{result['model'].id}"
+          env['api.format'] = :txt
+          nil
+        end
       end
 
       desc 'Updates a project'

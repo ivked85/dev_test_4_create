@@ -2,7 +2,7 @@ module API::ResourceOperations
   extend Grape::API::Helpers
 
   %w[index show create update destroy].each do |name|
-    define_method(name) do |&block| action name, &(block || default_block) 
+    define_method(name) { |&block| action name, &(block || default_block) }
   end
 
   def default_block
