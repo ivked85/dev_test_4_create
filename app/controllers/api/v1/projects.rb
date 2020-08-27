@@ -5,7 +5,7 @@ module API::V1
     resource :projects do
       desc 'Returns all projects'
       get do
-        index
+        index(headers: headers)
       end
 
       desc 'Returns a project'
@@ -28,6 +28,7 @@ module API::V1
       end
       post do
         create do |result|
+          # ugly, but I found no other way to return 201 + empty body + location header
           header['Location'] = "#{request.url}/#{result['model'].id}"
           env['api.format'] = :txt
           nil
