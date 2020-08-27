@@ -38,5 +38,6 @@ module DevTest4Create
     # Auto-load API and its subdirectories
     # config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     # config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'serializers')]
   end
 end

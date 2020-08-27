@@ -32,7 +32,7 @@ module API::V1
       post do
         result = Project::Create.(params: params)
         if result.success?
-          {}
+          result['model']
         else
           error!(result['errors'], 422)
         end

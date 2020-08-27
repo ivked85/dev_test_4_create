@@ -10,4 +10,8 @@ private
   def handle_validation_error!(ctx, options)
     ctx['errors'] = ctx['contract.default'].errors.messages
   end
+
+  def check(ctx, options)
+    byebug
+  end
 end
