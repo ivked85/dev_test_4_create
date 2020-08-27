@@ -1,6 +1,6 @@
 module Projects::Operation
   class Destroy < Trailblazer::Operation
-    step Subprocess(Find)
+    step Subprocess(Task::Find)
     step :destroy!
 
   private

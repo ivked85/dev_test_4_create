@@ -1,4 +1,4 @@
-module Projects::Operation
+module Projects::Operation::Task
   class Modify < Trailblazer::Operation
     step Contract::Build(constant: Projects::Contract::Create)
     step Contract::Validate(key: :project)

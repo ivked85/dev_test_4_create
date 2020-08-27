@@ -1,4 +1,4 @@
-module Projects::Operation
+module Projects::Operation::Task
   class Find < Trailblazer::Operation
     step Model(Project, :find_by)
     fail :handle_not_found!

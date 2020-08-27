@@ -1,6 +1,6 @@
 module Projects::Operation
   class Update < Trailblazer::Operation
-    step Subprocess(Find)
-    step Subprocess(Modify)
+    step Subprocess(Task::Find)
+    step Subprocess(Task::Modify)
   end
 end

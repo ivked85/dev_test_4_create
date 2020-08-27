@@ -1,14 +1,11 @@
 module API::V1
   class Projects < Grape::API
-    # TODO: include API::V1::Defaults
-    prefix 'api'
-    version 'v1'
-    format :json
+    include API::Defaults
 
     resource :projects do
       desc 'Returns all projects'
       get do
-        ::Projects::Operation::Index.(params: params)['model']
+        index
       end
 
       desc 'Returns a project'
@@ -16,12 +13,7 @@ module API::V1
         requires :id, type: String, desc: 'ID of the project'
       end
       get ':id' do
-        result = ::Projects::Operation::Find.(params: params)
-        if result.success?
-          result['model']
-        else
-          error!(result['errors'], result['code'])
-        end
+        show
       end
 
       desc 'Creates a project'
@@ -35,12 +27,7 @@ module API::V1
         end
       end
       post do
-        result = ::Projects::Operation::Create.(params: params)
-        if result.success?
-          result['model']
-        else
-          error!(result['errors'], result['code'])
-        end
+        create { |result| result['model'] }
       end
 
       desc 'Updates a project'
@@ -54,12 +41,7 @@ module API::V1
         end
       end
       put ':id' do
-        result = ::Projects::Operation::Update.(params: params)
-        if result.success?
-          result['model']
-        else
-          error!(result['errors'], result['code'])
-        end
+        update { |result| result['model'] }
       end
 
       desc 'Deletes a project'
@@ -67,12 +49,7 @@ module API::V1
         requires :id, type: String, desc: 'ID of the project'
       end
       delete ':id' do
-        result = ::Projects::Operation::Destroy.(params: params)
-        if result.success?
-          body false
-        else
-          error!(result['errors'], result['code'])
-        end
+        destroy { body false }
       end
     end
   end
