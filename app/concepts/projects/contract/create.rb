@@ -1,4 +1,4 @@
-module Project::Contract
+module Projects::Contract
   class Create < Reform::Form
     property :name
     property :status

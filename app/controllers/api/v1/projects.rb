@@ -8,7 +8,7 @@ module API::V1
     resource :projects do
       desc 'Returns all projects'
       get do
-        { projects: Project.all }
+        ::Projects::Operation::Index.(params: params)['model']
       end
 
       desc 'Returns a project'
@@ -16,7 +16,12 @@ module API::V1
         requires :id, type: String, desc: 'ID of the project'
       end
       get ':id' do
-        { project: Project.find(params['id']) }
+        result = ::Projects::Operation::Find.(params: params)
+        if result.success?
+          result['model']
+        else
+          error!(result['errors'], result['code'])
+        end
       end
 
       desc 'Creates a project'
@@ -30,11 +35,43 @@ module API::V1
         end
       end
       post do
-        result = Project::Create.(params: params)
+        result = ::Projects::Operation::Create.(params: params)
         if result.success?
           result['model']
         else
-          error!(result['errors'], 422)
+          error!(result['errors'], result['code'])
+        end
+      end
+
+      desc 'Updates a project'
+      params do
+        requires :project, type: Hash, desc: 'Project object' do
+          optional :name, type: String, desc: 'Project name'
+          optional :status, type: String, desc: 'one of: pending, in_progress, finished'
+          optional :client, type: Hash, desc: 'Client object' do
+            requires :name, type: String, desc: 'Client name'
+          end
+        end
+      end
+      put ':id' do
+        result = ::Projects::Operation::Update.(params: params)
+        if result.success?
+          result['model']
+        else
+          error!(result['errors'], result['code'])
+        end
+      end
+
+      desc 'Deletes a project'
+      params do
+        requires :id, type: String, desc: 'ID of the project'
+      end
+      delete ':id' do
+        result = ::Projects::Operation::Destroy.(params: params)
+        if result.success?
+          body false
+        else
+          error!(result['errors'], result['code'])
         end
       end
     end
