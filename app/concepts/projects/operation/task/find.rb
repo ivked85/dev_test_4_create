@@ -6,7 +6,7 @@ module Projects::Operation::Task
   private
 
     def handle_not_found!(ctx, params:, **)
-      ctx['errors'] = "Couldn't find project with id: #{params['id']}"
+      ctx['errors'] = "Couldn't find project with id: #{params[:id]}"
       ctx['code'] = 404
     end
   end
