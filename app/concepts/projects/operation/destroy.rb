@@ -1,7 +1,8 @@
 module Projects::Operation
-  class Destroy < Trailblazer::Operation
+  class Destroy < BaseOperation
     step Subprocess(Task::Find)
     step :destroy!
+    step Subprocess(Task::Authorize)
 
   private
 

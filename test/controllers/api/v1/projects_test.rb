@@ -41,7 +41,8 @@ module API::V1
 
     test 'CREATE creates a project' do
       assert_difference 'Project.all.count' do
-        post "/api/v1/projects", new_project_params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+        post "/api/v1/projects", new_project_params.to_json,
+             { 'CONTENT_TYPE' => 'application/json' }
 
         assert last_response.created?
         assert_equal 201, last_response.status
@@ -50,35 +51,40 @@ module API::V1
     end
 
     test 'CREATE returns 400 if params are invalid' do
-      post "/api/v1/projects", { project: {}}.to_json, { 'CONTENT_TYPE' => 'application/json' }
+      post "/api/v1/projects", { project: {} }.to_json,
+           { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
       assert_equal 400, last_response.status
     end
 
     test 'CREATE returns 422 if creation fails' do
-      post "/api/v1/projects", invalid_project_params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+      post "/api/v1/projects", invalid_project_params.to_json,
+           { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
       assert_equal 422, last_response.status
     end
 
     test 'UPDATE /:id updates a project' do
-      put "/api/v1/projects/1", update_project_params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+      put "/api/v1/projects/1", update_project_params.to_json,
+          { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.ok?
       assert_equal 'updated project', Project.find(1).name
     end
 
     test 'UPDATE returns 404 if project is not found' do
-      put "/api/v1/projects/178", update_project_params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+      put "/api/v1/projects/178", update_project_params.to_json,
+          { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
       assert_equal 404, last_response.status
     end
 
     test 'UPDATE returns 422 if project cannot be updated' do
-      put "/api/v1/projects/1", invalid_project_params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+      put "/api/v1/projects/1", invalid_project_params.to_json,
+          { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
       assert_equal 422, last_response.status

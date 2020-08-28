@@ -1,7 +1,8 @@
 module Projects::Operation
-  class Index < Trailblazer::Operation
+  class Index < BaseOperation
     step :pagination!
     step :model!
+    step Subprocess(Task::Authorize)
 
   private
 
@@ -11,8 +12,8 @@ module Projects::Operation
     end
 
     def model!(ctx, **)
-      ctx['model'] = Project.paginate(page: ctx['pagination.page'].to_i,
-                                      limit: ctx['pagination.limit'].to_i)
+      ctx['model'] = Project.includes(:client).paginate(page: ctx['pagination.page'].to_i,
+                                               limit: ctx['pagination.limit'].to_i)
     end
   end
 end
