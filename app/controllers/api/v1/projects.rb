@@ -3,10 +3,20 @@ module API::V1
     include API::Defaults
 
     resource :projects do
-      desc 'Returns all projects'
+      desc 'Returns all projects' do
+        headers 'Pagination-Page' => {
+                  description: 'requested page',
+                  required: false
+                },
+                'Pagination-Limit' => {
+                  description: 'items per page',
+                  required: false
+                }
+      end
       get do
         index(headers: headers)
       end
+    
 
       desc 'Returns a project'
       params do
@@ -28,7 +38,6 @@ module API::V1
       end
       post do
         create do |result|
-          # ugly, but I found no other way to return 201 + empty body + location header
           header['Location'] = "#{request.url}/#{result['model'].id}"
           env['api.format'] = :txt
           nil
@@ -55,6 +64,21 @@ module API::V1
       end
       delete ':id' do
         destroy { body false }
+      end
+
+private
+
+      def self.pagination_headers
+        {
+          'Pagination-Page' => {
+            description: 'requested page',
+            required: false
+          },
+          'Pagination-Limit' => {
+            description: 'items per page',
+            required: false
+          }
+        }
       end
     end
   end

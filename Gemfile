@@ -28,7 +28,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # gem 'rack-cors'
 
 gem 'grape'
-# gem 'grape-route-helpers'
+gem 'grape-swagger'
 gem 'trailblazer'
 gem 'trailblazer-rails'
 gem 'dry-validation'
