@@ -11,12 +11,12 @@ class ProjectTest < ActiveSupport::TestCase
   test 'to json uses fast JSON API' do
     assert_equal({
       "data"=>{
-        "id"=>"168093765",
+        "id"=>"1",
         "type"=>"project",
-        "attributes"=>{"name"=>"Project Z", "status"=>2},
+        "attributes"=>{"name"=>"Project X", "status"=>"pending"},
         "relationships"=>{
           "client"=>{
-            "data"=>{"id"=>"980204181", "type"=>"client"}}}}},
+            "data"=>{"id"=>"830138774", "type"=>"client"}}}}},
       JSON.parse(Project.first.to_json))
   end
 end

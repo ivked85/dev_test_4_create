@@ -27,4 +27,15 @@ class IndexTest < ActiveSupport::TestCase
 
       assert_equal 3, result['model'].count
   end
+
+  test 'should use default values when pagination params are invalid' do
+    result = Projects::Operation::Index.(
+      params: {},
+      headers: {
+        'Pagination-Page' => 'invalid',
+        'Pagination-Limit' => 'invalid'
+      })
+
+      assert_equal 3, result['model'].count
+  end
 end

@@ -1,14 +1,17 @@
 project_x:
+  id: 1
   name: 'Project X'
-  status: 0
+  status: 'pending'
   client: john
 
 project_y:
+  id: 2
   name: 'Project Y'
-  status: 1
+  status: 'in_progress'
   client: john
 
 project_z:
+  id: 3
   name: 'Project Z'
-  status: 2
+  status: 'finished'
   client: jane
