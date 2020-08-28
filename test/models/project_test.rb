@@ -8,6 +8,10 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal all_projects.second, Project.paginate(page: 1, limit: 1).first
   end
 
+  test 'paginate ignores negative values' do    
+    assert_equal 3, Project.paginate(page: -5, limit: -2).count
+  end
+
   test 'to json uses fast JSON API' do
     assert_equal({
       "data"=>{
