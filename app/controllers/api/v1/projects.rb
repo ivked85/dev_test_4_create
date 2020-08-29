@@ -4,7 +4,7 @@ module API::V1
 
     resource :projects do
       desc 'Returns all projects' do
-        security 'index-projects'
+        named 'index-projects'
         headers 'Pagination-Page' => {
                   description: 'requested page',
                   required: false
@@ -19,7 +19,7 @@ module API::V1
       end
   
       desc 'Returns a project' do
-        security 'show-project'
+        named 'show-project'
       end
       params do
         requires :id, type: String, desc: 'ID of the project'
@@ -29,7 +29,7 @@ module API::V1
       end
 
       desc 'Creates a project' do
-        security 'create-project'
+        named 'create-project'
       end
       params do
         requires :project, type: Hash, desc: 'Project object' do
@@ -49,7 +49,7 @@ module API::V1
       end
 
       desc 'Updates a project' do
-        security 'update-project'
+        named 'update-project'
       end
       params do
         requires :project, type: Hash, desc: 'Project object' do
@@ -61,11 +61,14 @@ module API::V1
         end
       end
       put ':id' do
-        update { |result| result['model'] }
+        update do |result|
+          env['api.format'] = :txt
+          nil
+        end
       end
 
       desc 'Deletes a project' do
-        security 'destroy-project'
+        named 'destroy-project'
       end
       params do
         requires :id, type: String, desc: 'ID of the project'
