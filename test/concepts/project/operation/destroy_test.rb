@@ -15,4 +15,13 @@ class DestroyTest < ActiveSupport::TestCase
     assert_equal "Couldn't find project with id: 178", result['errors']
     assert_equal 404, result['code']
   end
+
+  test 'should return error and 403 if user is unauthorized' do
+    result = Projects::Operation::Destroy.(params: { id: 1 },
+                                           current_user: 'unauthorized')
+
+    assert_not result.success?
+    assert_match /You are not authorized/, result['errors']
+    assert_equal 403, result['code']
+  end
 end

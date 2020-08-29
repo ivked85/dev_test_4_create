@@ -38,4 +38,13 @@ class IndexTest < ActiveSupport::TestCase
 
       assert_equal 3, result['model'].count
   end
+
+  test 'should return error and 403 if user is unauthorized' do
+    result = Projects::Operation::Index.(params: {},
+                                         current_user: 'unauthorized')
+
+    assert_not result.success?
+    assert_match /You are not authorized/, result['errors']
+    assert_equal 403, result['code']
+  end
 end

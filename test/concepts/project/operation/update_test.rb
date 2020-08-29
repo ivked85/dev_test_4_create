@@ -40,6 +40,15 @@ class UpdateTest < ActiveSupport::TestCase
     assert_equal 404, result['code']
   end
 
+  test 'should return error and 403 if user is unauthorized' do
+    result = Projects::Operation::Update.(params: project_name_update_params,
+                                          current_user: 'unauthorized')
+
+    assert_not result.success?
+    assert_match /You are not authorized/, result['errors']
+    assert_equal 403, result['code']
+  end
+
 private
 
   def project_name_update_params
