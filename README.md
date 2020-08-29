@@ -60,13 +60,15 @@ Grape API doesn't seem to support non-default json serialization out of the box.
 
 ## Authorizing requests
 
-To avoid repetition when authorizing different requests, I used: 
+
+In before block, request name, along with the user is sent to mocked service for evaluation. ```app/controllers/helpers/authorization.rb``` is responsible for that.
+In order to make the request name available in the ```before do``` block, I used:
+
 ```
 desc do
   named 'name-of-the-request-to-authorize'
 end
 ```
-So in before block, request name, along with the user is sent to mocked service for evaluation. ```app/controllers/helpers/authorization.rb``` is responsible for that.
 
 ## Authorizing resources
 
