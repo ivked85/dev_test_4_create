@@ -56,6 +56,27 @@ nil
 
 Grape API doesn't seem to support non-default json serialization out of the box. So in order to avoid having to do ```ProjectSerializer.new(project).serialized_json``` in every api endpoint I opted to make it so that a matching serializer from app/serializers is used (if available) when model.to_json is called (if no matching serializer is found the default serialization is used). The code that makes that possible is in ```app/models/concerns/fast_json_serializable.rb```
 
+## Authorizing requests
 
+To avoid repetition when authorizing different requests, I used: 
+```
+desc do
+  named 'name-of-the-request-to-authorize'
+end
+```
+So in before block, request name, along with the user is sent to mocked service for evaluation. ```app/controllers/helpers/authorization.rb``` is responsible for that.
 
+## Authorizing resources
 
+To authorize the resource(s), I presumed the service would need to know user, resource, and the action to authorize. So I created a reusable operation(Task) that passes that info to mocked service. The tricky part was knowing the action, because Authorize operation only has access to context object. That's the reason behind the code in ```base_operation.rb```.
+
+```lib/mock_authorization_service.rb``` is where the separation of project/client, collection/single and authorizing is done, even though I didn't care much for the state of that code, since it's a mock.
+
+## Trying it out
+
+The app is deployed to heroku at ```http://project-browser-dev-test.herokuapp.com```
+swagger docs are at ```http://project-browser-dev-test.herokuapp.com/swagger_doc```
+
+I kept sqlite as the development database so it's easier to setup if running the project locally
+
+By default the user is authorized for everything, When testing authorization, request headers ```Unauthorized``` or ```Unauthenticated``` should be set to any value to make the user unauthorized or unauthenticated respectively.
