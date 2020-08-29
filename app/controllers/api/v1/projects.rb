@@ -15,6 +15,7 @@ module API::V1
             required: false
           }
         )
+        produces ['application/json']
       end
       get do
         index(headers: headers)
@@ -32,13 +33,14 @@ module API::V1
 
       desc 'Creates a project' do
         named 'create-project'
+        consumes ['application/json']
       end
       params do
-        requires :project, type: Hash, desc: 'Project object' do
+        requires :project, type: Hash, documentation: { desc: 'Project object', param_type: 'body' } do
           requires :name, type: String, desc: 'Project name'
           requires :status, type: String, desc: 'one of: pending, in_progress, finished'
           optional :client, type: Hash, desc: 'Client object' do
-            requires :name, type: String, desc: 'Client name'
+            optional :name, type: String, desc: 'Client name'
           end
         end
       end
@@ -54,7 +56,7 @@ module API::V1
         named 'update-project'
       end
       params do
-        requires :project, type: Hash, desc: 'Project object' do
+        requires :project, type: Hash, documentation: { desc: 'Project object', param_type: 'body' } do
           optional :name, type: String, desc: 'Project name'
           optional :status, type: String, desc: 'one of: pending, in_progress, finished'
           optional :client, type: Hash, desc: 'Client object' do
