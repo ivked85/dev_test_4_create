@@ -13,7 +13,9 @@ class IndexTest < ActiveSupport::TestCase
       headers: {
         'Pagination-Page' => '0',
         'Pagination-Limit' => '1'
-      })
+      }
+    )
+
     assert_equal 1, result['model'].count
   end
 
@@ -23,9 +25,10 @@ class IndexTest < ActiveSupport::TestCase
       headers: {
         'Pagination-Page' => '-5',
         'Pagination-Limit' => '-7'
-      })
+      }
+    )
 
-      assert_equal 3, result['model'].count
+    assert_equal 3, result['model'].count
   end
 
   test 'should use default values when pagination params are invalid' do
@@ -34,9 +37,10 @@ class IndexTest < ActiveSupport::TestCase
       headers: {
         'Pagination-Page' => 'invalid',
         'Pagination-Limit' => 'invalid'
-      })
+      }
+    )
 
-      assert_equal 3, result['model'].count
+    assert_equal 3, result['model'].count
   end
 
   test 'should return error and 403 if user is unauthorized' do
@@ -44,7 +48,7 @@ class IndexTest < ActiveSupport::TestCase
                                          current_user: 'unauthorized')
 
     assert_not result.success?
-    assert_match /You are not authorized/, result['errors']
+    assert_match(/You are not authorized/, result['errors'])
     assert_equal 403, result['code']
   end
 end

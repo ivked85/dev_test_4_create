@@ -5,19 +5,21 @@ module API::V1
     resource :projects do
       desc 'Returns all projects' do
         named 'index-projects'
-        headers 'Pagination-Page' => {
-                  description: 'requested page',
-                  required: false
-                },
-                'Pagination-Limit' => {
-                  description: 'items per page',
-                  required: false
-                }
+        headers(
+          'Pagination-Page' => {
+            description: 'requested page',
+            required: false
+          },
+          'Pagination-Limit' => {
+            description: 'items per page',
+            required: false
+          }
+        )
       end
       get do
         index(headers: headers)
       end
-  
+
       desc 'Returns a project' do
         named 'show-project'
       end
@@ -61,7 +63,7 @@ module API::V1
         end
       end
       put ':id' do
-        update do |result|
+        update do
           env['api.format'] = :txt
           nil
         end
@@ -76,8 +78,6 @@ module API::V1
       delete ':id' do
         destroy { body false }
       end
-
-private
 
       def self.pagination_headers
         {

@@ -1,0 +1,34 @@
+require: 
+  - rubocop-rails
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+Style/ClassAndModuleChildren:
+  Enabled: false
+Rails/HttpPositionalArguments:
+  Enabled: false
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+Metrics/BlockLength:
+  Exclude:
+    - 'app/controllers/api/**/*'
+Style/LambdaCall:
+  Enabled: false
+Lint/UnreachableCode:
+  # Trailblazer::Operation DSL overrides fail keyword in 2.1, whose usage triggers this
+  Exclude:
+    - 'app/concepts/**/*'
+Style/SignalException:
+    # Trailblazer::Operation DSL overrides fail keyword in 2.1, whose usage triggers this
+  Exclude:
+    - 'app/concepts/**/*'

@@ -3,14 +3,14 @@ module Projects::Operation::Task
     step Policy::Guard(:authorized?)
     fail :handle_unauthorized!
 
-  private
+    private
 
     def authorized?(ctx, current_user: nil, **)
       ::MockAuthorizationService.new(current_user, ctx['model'], ctx['action']).authorized?
     end
 
-    def handle_unauthorized!(ctx, current_user: nil, **)
-      ctx['errors'] = "You are not authorized to access this resource"
+    def handle_unauthorized!(ctx, **)
+      ctx['errors'] = 'You are not authorized to access this resource'
       ctx['code'] = 403
     end
   end

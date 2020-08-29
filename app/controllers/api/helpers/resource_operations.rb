@@ -6,10 +6,10 @@ module API::Helpers::ResourceOperations
   end
 
   def default_block
-    Proc.new { |result| result['model'] }
+    proc { |result| result['model'] }
   end
 
-  def action name, **options
+  def action(name, **options)
     result = operation_for(name).(params: params, current_user: current_user, **options)
     if result.success?
       yield result
@@ -18,7 +18,7 @@ module API::Helpers::ResourceOperations
     end
   end
 
-  def operation_for action
+  def operation_for(action)
     "#{namespace}/operation/#{action}".classify.constantize
   end
 end

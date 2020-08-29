@@ -38,7 +38,10 @@ class CreateTest < ActiveSupport::TestCase
     result = Projects::Operation::Create.(params: invalid_project)
 
     assert_not result.success?
-    assert_equal({:status=>["must be one of: pending, in_progress, finished"]}, result['errors'])
+    assert_equal(
+      { status: ['must be one of: pending, in_progress, finished'] },
+      result['errors']
+    )
     assert_equal 422, result['code']
   end
 
@@ -47,11 +50,11 @@ class CreateTest < ActiveSupport::TestCase
                                           current_user: 'unauthorized')
 
     assert_not result.success?
-    assert_match /You are not authorized/, result['errors']
+    assert_match(/You are not authorized/, result['errors'])
     assert_equal 403, result['code']
   end
 
-private
+  private
 
   def project_with_existing_client
     {

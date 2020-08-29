@@ -5,14 +5,14 @@ module Projects::Contract
 
     property :client, populator: :client! do
       property :name
-      
+
       validation do
         params do
           required(:name).filled
         end
       end
     end
-    
+
     validation do
       params do
         required(:name).filled
@@ -20,7 +20,7 @@ module Projects::Contract
       end
     end
 
-private
+    private
 
     def client!(fragment:, **)
       self.client = Client.find_by(fragment) || Client.new
@@ -29,7 +29,9 @@ private
     module Types
       include Dry.Types(default: :nominal)
 
-      Statuses = Types::Strict::String.enum({ 'pending' => 0, 'in_progress' => 1, 'finished' => 2})
+      Statuses = Types::Strict::String.enum(
+        { 'pending' => 0, 'in_progress' => 1, 'finished' => 2 }
+      )
     end
   end
 end

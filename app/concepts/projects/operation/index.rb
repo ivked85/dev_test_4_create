@@ -4,7 +4,7 @@ module Projects::Operation
     step :model!
     step Subprocess(Task::Authorize)
 
-  private
+    private
 
     def pagination!(ctx, headers: {}, **)
       ctx['pagination.page'] = headers['Pagination-Page'] || 0
@@ -12,8 +12,9 @@ module Projects::Operation
     end
 
     def model!(ctx, **)
-      ctx['model'] = Project.includes(:client).paginate(page: ctx['pagination.page'].to_i,
-                                               limit: ctx['pagination.limit'].to_i)
+      ctx['model'] = Project.includes(:client)
+                            .paginate(page: ctx['pagination.page'].to_i,
+                                      limit: ctx['pagination.limit'].to_i)
     end
   end
 end

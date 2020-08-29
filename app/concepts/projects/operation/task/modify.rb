@@ -5,7 +5,7 @@ module Projects::Operation::Task
     fail :handle_validation_error!
     step Contract::Persist()
 
-  private
+    private
 
     def handle_validation_error!(ctx, *)
       ctx['errors'] = ctx['contract.default'].errors.messages

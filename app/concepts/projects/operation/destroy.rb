@@ -4,7 +4,7 @@ module Projects::Operation
     step :destroy!
     step Subprocess(Task::Authorize)
 
-  private
+    private
 
     def destroy!(ctx, *)
       ctx['model'].destroy

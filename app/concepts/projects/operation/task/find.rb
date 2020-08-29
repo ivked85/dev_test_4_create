@@ -3,7 +3,7 @@ module Projects::Operation::Task
     step Model(Project, :find_by)
     fail :handle_not_found!
 
-  private
+    private
 
     def handle_not_found!(ctx, params:, **)
       ctx['errors'] = "Couldn't find project with id: #{params[:id]}"

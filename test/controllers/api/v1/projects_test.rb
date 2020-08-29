@@ -25,23 +25,23 @@ module API::V1
     end
 
     test 'SHOW returns a project by id' do
-      get "/api/v1/projects/1"
+      get '/api/v1/projects/1'
 
       assert last_response.ok?
       assert_equal Project.find(1).to_json, last_response.body
     end
 
     test 'SHOW /:id returns 404 if project is not found' do
-      get "/api/v1/projects/178"
+      get '/api/v1/projects/178'
 
       assert last_response.client_error?
       assert_equal 404, last_response.status
-      assert_match /Couldn't find project/, last_response.body
+      assert_match(/Couldn't find project/, last_response.body)
     end
 
     test 'CREATE creates a project' do
       assert_difference 'Project.all.count' do
-        post "/api/v1/projects", new_project_params.to_json,
+        post '/api/v1/projects', new_project_params.to_json,
              { 'CONTENT_TYPE' => 'application/json' }
 
         assert last_response.created?
@@ -51,7 +51,7 @@ module API::V1
     end
 
     test 'CREATE returns 400 if params are invalid' do
-      post "/api/v1/projects", { project: {} }.to_json,
+      post '/api/v1/projects', { project: {} }.to_json,
            { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
@@ -59,7 +59,7 @@ module API::V1
     end
 
     test 'CREATE returns 422 if creation fails' do
-      post "/api/v1/projects", invalid_project_params.to_json,
+      post '/api/v1/projects', invalid_project_params.to_json,
            { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
@@ -67,7 +67,7 @@ module API::V1
     end
 
     test 'UPDATE /:id updates a project' do
-      put "/api/v1/projects/1", update_project_params.to_json,
+      put '/api/v1/projects/1', update_project_params.to_json,
           { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.ok?
@@ -75,7 +75,7 @@ module API::V1
     end
 
     test 'UPDATE returns 404 if project is not found' do
-      put "/api/v1/projects/178", update_project_params.to_json,
+      put '/api/v1/projects/178', update_project_params.to_json,
           { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
@@ -83,7 +83,7 @@ module API::V1
     end
 
     test 'UPDATE returns 422 if project cannot be updated' do
-      put "/api/v1/projects/1", invalid_project_params.to_json,
+      put '/api/v1/projects/1', invalid_project_params.to_json,
           { 'CONTENT_TYPE' => 'application/json' }
 
       assert last_response.client_error?
@@ -109,30 +109,30 @@ module API::V1
     test 'returns 401 if user is unauthenticated' do
       header 'Unauthenticated', 'true'
 
-      get "/api/v1/projects"
+      get '/api/v1/projects'
 
       assert last_response.client_error?
       assert_equal 401, last_response.status
-      assert_match /Not allowed/, last_response.body
+      assert_match(/Not allowed/, last_response.body)
     end
 
     test 'returns 403 if user is unauthorized' do
       header 'Unauthorized', 'true'
 
-      get "/api/v1/projects"
+      get '/api/v1/projects'
 
       assert last_response.client_error?
       assert_equal 403, last_response.status
-      assert_match /You are not authorized/, last_response.body
+      assert_match(/You are not authorized/, last_response.body)
     end
 
-  private
+    private
 
     def new_project_params
       {
         project: {
-          name: "A new project",
-          status: "pending"
+          name: 'A new project',
+          status: 'pending'
         }
       }
     end

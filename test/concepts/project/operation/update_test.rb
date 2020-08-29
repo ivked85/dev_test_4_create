@@ -30,6 +30,7 @@ class UpdateTest < ActiveSupport::TestCase
     assert result.success?
     assert_equal old_client_count, Client.all.count
     assert_equal new_client, Project.find(1).client
+    assert_not_equal old_client, new_client
   end
 
   test 'should return error and 404 if project cannot be found' do
@@ -45,11 +46,11 @@ class UpdateTest < ActiveSupport::TestCase
                                           current_user: 'unauthorized')
 
     assert_not result.success?
-    assert_match /You are not authorized/, result['errors']
+    assert_match(/You are not authorized/, result['errors'])
     assert_equal 403, result['code']
   end
 
-private
+  private
 
   def project_name_update_params
     {
