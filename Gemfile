@@ -7,7 +7,6 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'puma', '~> 4.1'
-gem 'sqlite3', '~> 1.4'
 
 gem 'dry-validation'
 gem 'fast_jsonapi'
@@ -19,6 +18,7 @@ gem 'trailblazer'
 gem 'trailblazer-rails'
 
 group :development, :test do
+  gem 'sqlite3', '~> 1.4'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
