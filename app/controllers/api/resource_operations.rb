@@ -10,7 +10,7 @@ module API::ResourceOperations
   end
 
   def action name, **options
-    result = operation_for(name).(params: params, **options)
+    result = operation_for(name).(params: params, current_user: current_user, **options)
     if result.success?
       yield result
     else

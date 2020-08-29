@@ -6,7 +6,7 @@ module Projects::Operation::Task
   private
 
     def authorized?(ctx, current_user: nil, **)
-      ::MockPolicyService.new(current_user, ctx['model'], ctx['action']).authorized?
+      ::MockAuthorizationService.new(current_user, ctx['model'], ctx['action']).authorized?
     end
 
     def handle_unauthorized!(ctx, current_user: nil, **)

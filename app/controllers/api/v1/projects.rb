@@ -2,8 +2,13 @@ module API::V1
   class Projects < Grape::API
     include API::Defaults
 
+    before do
+      authorize_user!
+    end
+
     resource :projects do
       desc 'Returns all projects' do
+        security 'index-projects'
         headers 'Pagination-Page' => {
                   description: 'requested page',
                   required: false
@@ -16,9 +21,10 @@ module API::V1
       get do
         index(headers: headers)
       end
-    
-
-      desc 'Returns a project'
+  
+      desc 'Returns a project' do
+        security 'show-project'
+      end
       params do
         requires :id, type: String, desc: 'ID of the project'
       end
@@ -26,7 +32,9 @@ module API::V1
         show
       end
 
-      desc 'Creates a project'
+      desc 'Creates a project' do
+        security 'create-project'
+      end
       params do
         requires :project, type: Hash, desc: 'Project object' do
           requires :name, type: String, desc: 'Project name'
@@ -44,7 +52,9 @@ module API::V1
         end
       end
 
-      desc 'Updates a project'
+      desc 'Updates a project' do
+        security 'update-project'
+      end
       params do
         requires :project, type: Hash, desc: 'Project object' do
           optional :name, type: String, desc: 'Project name'
@@ -58,7 +68,9 @@ module API::V1
         update { |result| result['model'] }
       end
 
-      desc 'Deletes a project'
+      desc 'Deletes a project' do
+        security 'destroy-project'
+      end
       params do
         requires :id, type: String, desc: 'ID of the project'
       end

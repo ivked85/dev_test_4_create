@@ -1,4 +1,4 @@
-class MockPolicyService
+class MockAuthorizationService
   attr_reader :user, :resource, :action
 
   def initialize(user, resource, action)
@@ -9,6 +9,10 @@ class MockPolicyService
 
   def authorized?
     collection? ? authorize_project_collection : authorize_single_project
+  end
+
+  def self.authorize_request user, request
+    true unless user == 'unauthenticated'
   end
 
 private
@@ -34,6 +38,6 @@ private
 
   def call_microservice(service, resource)
     # pass service, user, resource and action to microservice
-    true
+    true unless user == 'unauthorized'
   end
 end
