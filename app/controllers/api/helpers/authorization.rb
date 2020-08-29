@@ -16,6 +16,6 @@ module API::Helpers::Authorization
   end
 
   def protected_request
-    route_setting(:description)[:named]
+    route_setting(:description).try(:[], :named)
   end
 end
