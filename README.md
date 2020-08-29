@@ -4,7 +4,9 @@
 
 ## Trailblazer v2.1
 
-  For the most part I tried to follow recommended conventions, apart from a few exceptions. For example Nick recommends namespacing operations under model's namespace
+  For the most part I tried to follow recommended conventions, apart from a few exceptions. 
+  
+  For example Nick recommends namespacing operations under model's namespace
 
   ```
   class Project::Create < Trailblazer::Operation
