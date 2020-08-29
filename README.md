@@ -20,13 +20,15 @@
     end
   end
   ```
-  Also, I wanted to separate operations that are called directly, from the re-used operations that are called as a subprocess within other operations. Name 'task' seemed appropriate, so I put those in operation/task directory/namespace.
+  Also, I wanted to separate operations that are called directly, from the re-used operations that are called as a subprocess within other operations. Name 'task' seemed appropriate, so I put those in Operation::Task namespace.
 
-  One more thing I realized was that when operation inherits from another operation, parent's steps get called first, so I used that to make all operations store their name in context, so it can be used for authentication.
+  One more thing I realized was that when operation inherits from another operation, parent's steps get called first, so I used that to make all operations store their name in context, so it can be used for authentication later.
 
 ## Grape API
 
-The file structure as described in [this post](https://www.thegreatcodeadventure.com/making-a-rails-api-with-grap/#:~:text=What%20is%20Grape%3F&text=REST%2Dlike%20API%20micro%2Dframework,DSL%20to%20easily%20provide%20APIs.&text=Installing%20the%20grape%20gem%20in,out%20of%20our%20Rails%20backend) appealed to me the most, so I went with that. What I didn't like was having to do the same thing in every endpoint(call operation, check result, render error or success) I've seen the guys from Trailblazer are working on ```Trailblazer::Endpoint``` that should be able to solve that issue, but it's still mostly work in progress so I went with my own solution. I introduced a new convention where a resource, as defined in resource block in grape api for example :projects, expects ```Projects::Operation::#{CrudOperation}``` to be defined, and creates corresponding helper methods to call it. So instead of
+The file structure as described in [this post](https://www.thegreatcodeadventure.com/making-a-rails-api-with-grap/#:~:text=What%20is%20Grape%3F&text=REST%2Dlike%20API%20micro%2Dframework,DSL%20to%20easily%20provide%20APIs.&text=Installing%20the%20grape%20gem%20in,out%20of%20our%20Rails%20backend) appealed to me the most, so I went with that. What I didn't like was having to do the same thing in every endpoint(call operation, check result, render error or success) I've seen the guys from Trailblazer are working on ```Trailblazer::Endpoint``` that should be able to solve that issue, but it's still mostly work in progress so I went with my own solution. 
+
+I introduced a new convention where a resource, as defined in resource block in grape api for example :projects, expects ```Projects::Operation::#{CrudOperation}``` to be defined, and creates corresponding helper methods to call it. So instead of
 ```
 result = Projects::Operation::Show.(params: params, current_user: current_user)
 if result.success?
