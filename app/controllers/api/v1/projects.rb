@@ -2,10 +2,6 @@ module API::V1
   class Projects < Grape::API
     include API::Defaults
 
-    before do
-      authorize_user!
-    end
-
     resource :projects do
       desc 'Returns all projects' do
         security 'index-projects'

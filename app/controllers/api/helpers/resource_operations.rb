@@ -1,4 +1,4 @@
-module API::ResourceOperations
+module API::Helpers::ResourceOperations
   extend Grape::API::Helpers
 
   %w[index show create update destroy].each do |name|

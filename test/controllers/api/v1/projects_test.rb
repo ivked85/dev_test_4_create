@@ -106,6 +106,26 @@ module API::V1
       assert_equal 404, last_response.status
     end
 
+    test 'returns 401 if user is unauthenticated' do
+      header 'Unauthenticated', 'true'
+
+      get "/api/v1/projects"
+
+      assert last_response.client_error?
+      assert_equal 401, last_response.status
+      assert_match /Not allowed/, last_response.body
+    end
+
+    test 'returns 403 if user is unauthorized' do
+      header 'Unauthorized', 'true'
+
+      get "/api/v1/projects"
+
+      assert last_response.client_error?
+      assert_equal 403, last_response.status
+      assert_match /You are not authorized/, last_response.body
+    end
+
   private
 
     def new_project_params

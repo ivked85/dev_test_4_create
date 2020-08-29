@@ -2,7 +2,11 @@ module API::Defaults
   extend ActiveSupport::Concern
 
   included do
-    helpers API::ResourceOperations, API::Authorization
+    helpers API::Helpers::ResourceOperations, API::Helpers::Authorization
+
+    before do
+      authorize_user!
+    end
 
     prefix 'api'
     version 'v1'

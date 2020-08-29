@@ -1,8 +1,8 @@
-module API::Authorization
+module API::Helpers::Authorization
   extend Grape::API::Helpers
 
   def authorize_user!
-    return true unless request
+    return true unless protected_request
     return true  if ::MockAuthorizationService.authorize_request(current_user, protected_request)
     error!('Not allowed', 401)
   end
