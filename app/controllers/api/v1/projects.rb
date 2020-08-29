@@ -40,7 +40,7 @@ module API::V1
           requires :name, type: String, desc: 'Project name'
           requires :status, type: String, desc: 'one of: pending, in_progress, finished'
           optional :client, type: Hash, desc: 'Client object' do
-            optional :name, type: String, desc: 'Client name'
+            requires :name, type: String, desc: 'Client name'
           end
         end
       end
