@@ -34,12 +34,23 @@ class CreateTest < ActiveSupport::TestCase
     assert_equal old_client_count, Client.all.count
   end
 
-  test 'should return error and code if project params are invalid' do
+  test 'should return error and 422 if project params are invalid' do
     result = Projects::Operation::Create.(params: invalid_project)
 
     assert_not result.success?
     assert_equal(
       { status: ['must be one of: pending, in_progress, finished'] },
+      result['errors']
+    )
+    assert_equal 422, result['code']
+  end
+
+  test 'should return error and 422 if project name is taken' do
+    result = Projects::Operation::Create.(params: duplicate_project)
+
+    assert_not result.success?
+    assert_equal(
+      { name: ['must be unique'] },
       result['errors']
     )
     assert_equal 422, result['code']
@@ -77,6 +88,14 @@ class CreateTest < ActiveSupport::TestCase
   def invalid_project
     {
       project: invalid_project_params
+    }
+  end
+
+  def duplicate_project
+    {
+      project: {
+        name: 'Project X'
+      }
     }
   end
 

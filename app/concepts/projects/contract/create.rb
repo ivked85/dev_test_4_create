@@ -1,5 +1,6 @@
 module Projects::Contract
   class Create < Reform::Form
+    property :id
     property :name
     property :status
 
@@ -15,8 +16,14 @@ module Projects::Contract
 
     validation do
       params do
+        optional(:id)
         required(:name).filled
         required(:status).filled(Types::Statuses)
+      end
+
+      rule(:name, :id) do
+        projects = Project.where.not(id: values[:id])
+        key.failure('must be unique') if projects.find_by(name: values[:name])
       end
     end
 

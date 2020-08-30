@@ -41,6 +41,22 @@ class UpdateTest < ActiveSupport::TestCase
     assert_equal 404, result['code']
   end
 
+  test 'should return 422 on validation error' do
+    result = Projects::Operation::Update.(params: duplicate_project_update_params)
+
+    assert_not result.success?
+    assert_equal({ name: ['must be unique'] }, result['errors'])
+    assert_equal 422, result['code']
+  end
+
+  test 'should not fail uniqueness validation when updating self to existing value' do
+    assert_equal 'Project X', Project.find(1).name
+
+    result = Projects::Operation::Update.(params: identical_project_update_params)
+
+    assert result.success?
+  end
+
   test 'should return error and 403 if user is unauthorized' do
     result = Projects::Operation::Update.(params: project_name_update_params,
                                           current_user: 'unauthorized')
@@ -57,6 +73,24 @@ class UpdateTest < ActiveSupport::TestCase
       id: 1,
       project: {
         name: 'A renamed project'
+      }
+    }
+  end
+
+  def duplicate_project_update_params
+    {
+      id: 1,
+      project: {
+        name: 'Project Z'
+      }
+    }
+  end
+
+  def identical_project_update_params
+    {
+      id: 1,
+      project: {
+        name: 'Project X'
       }
     }
   end
