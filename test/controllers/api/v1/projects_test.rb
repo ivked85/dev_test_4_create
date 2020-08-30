@@ -10,7 +10,9 @@ module API::V1
 
     test 'INDEX returns an array of serialized projects' do
       get '/api/v1/projects'
+
       assert last_response.ok?
+      assert_equal 3, last_response.headers['Total-Item-Count']
       assert_equal Project.all.to_json, last_response.body
     end
 
@@ -21,6 +23,7 @@ module API::V1
       get '/api/v1/projects'
 
       assert last_response.ok?
+      assert_equal 3, last_response.headers['Total-Item-Count']
       assert_equal Project.where(id: 3).to_json, last_response.body
     end
 

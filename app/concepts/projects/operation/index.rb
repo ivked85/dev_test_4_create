@@ -12,6 +12,7 @@ module Projects::Operation
     end
 
     def model!(ctx, **)
+      ctx['pagination.item_count'] = Project.all.count
       ctx['model'] = Project.includes(:client)
                             .paginate(page: ctx['pagination.page'].to_i,
                                       limit: ctx['pagination.limit'].to_i)

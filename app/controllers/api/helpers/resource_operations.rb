@@ -10,12 +10,16 @@ module API::Helpers::ResourceOperations
   end
 
   def action(name, **options)
-    result = operation_for(name).(params: params, current_user: current_user, **options)
-    if result.success?
-      yield result
-    else
-      error!(result['errors'], result['code'])
-    end
+    result = operation_for(name).(
+      params: params,
+      headers: headers,
+      current_user: current_user,
+      **options
+    )
+
+    return yield result if result.success?
+
+    error!(result['errors'], result['code'])
   end
 
   def operation_for(action)

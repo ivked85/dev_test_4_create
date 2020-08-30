@@ -16,6 +16,7 @@ class IndexTest < ActiveSupport::TestCase
       }
     )
 
+    assert_equal 3, result['pagination.item_count']
     assert_equal 1, result['model'].count
   end
 
@@ -28,6 +29,7 @@ class IndexTest < ActiveSupport::TestCase
       }
     )
 
+    assert_equal 3, result['pagination.item_count']
     assert_equal 3, result['model'].count
   end
 
@@ -40,6 +42,7 @@ class IndexTest < ActiveSupport::TestCase
       }
     )
 
+    assert_equal 3, result['pagination.item_count']
     assert_equal 3, result['model'].count
   end
 

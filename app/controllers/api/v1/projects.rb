@@ -15,10 +15,15 @@ module API::V1
             required: false
           }
         )
-        produces ['application/json']
+        success headers: {
+          'Total-Item-Count' => { description: 'Total items', type: 'integer' }
+        }
       end
       get do
-        index(headers: headers)
+        index do |result|
+          header 'Total-Item-Count', result['pagination.item_count']
+          result['model']
+        end
       end
 
       desc 'Returns a project' do
@@ -33,7 +38,9 @@ module API::V1
 
       desc 'Creates a project' do
         named 'create-project'
-        consumes ['application/json']
+        success headers: {
+          'Location' => { description: 'URL of created project', type: 'string' }
+        }
       end
       params do
         requires :project, type: Hash, documentation: { desc: 'Project object', param_type: 'body' } do
