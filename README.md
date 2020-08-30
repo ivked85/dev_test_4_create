@@ -1,6 +1,8 @@
 # README
 
-  This project was very interesting for me because I've heard about most of the required gems, but never got to try them. As there was no 'one best way' I could find for this project setup, I'll try to use this readme to put more context to why I did what I did, as well as to go over some custom solutions I built to bridge certain gaps.
+  This project was very interesting for me because I've heard about most of the required gems, but never got to try them out until now.
+  
+  As there was no 'one best way' I could find for this project setup, I'll try to use this readme to put more context to why I did what I did, as well as to go over some custom solutions I built to bridge certain gaps.
 
 ## Trailblazer v2.1
 
